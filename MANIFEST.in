@@ -1,6 +1,4 @@
 include README.md
 include LICENSE.txt
-include __init__.py
-include __main__.py
 global-exclude __pycache__
 global-exclude *.pyc

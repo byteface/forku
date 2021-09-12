@@ -40,10 +40,12 @@ python3 -m pip install forku
 Pass forku the library you have patched. i.e. `python3 -m forku -l theirlib`
 
 ```bash
+cd someproject
+. venv/bin/activate
 python3 -m forku -l domonic
 ```
 
-i.e. This would fork the domonic library from github and apply the patches you made to the fork and push it back to github.
+i.e. This would fork the domonic library from github, then move the patches you made to venv/lib/python3.9/site-packages/domonic to the fork and push it back to github.
 
 
 #### status
