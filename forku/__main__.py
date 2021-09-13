@@ -21,6 +21,7 @@ def parse_args():
     parser.add_argument('-l', '--library', help="Attempts to make fork with patched changes", type=str)
     parser.add_argument('-h', '--help', action='store_true')  # launch the repo readme
     parser.add_argument('-p', '--path', help="change the path to the default venv", type=str)
+    parser.add_argument('-r', '--requirements', action='store_true', help="replace all pip installs with their github url")#, type=str)
     parser.add_argument('-v', '--version', action='store_true')
     return parser.parse_args()
 
@@ -30,6 +31,10 @@ def do_things(arguments):
     if arguments.library is not None:
         print('forku will attempt to make a fork with your patches:')
         forku.run(arguments.library)
+
+    if arguments.requirements is not None:
+        print('forku will look through your requirements.txt and create a github-requirements.txt:')
+        forku.githubify_requirements(arguments.requirements)
 
     if arguments.path is not None:
         forku.DEFAULT_VENV = arguments.path

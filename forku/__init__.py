@@ -47,6 +47,8 @@ class forku:
     DEFAULT_VENV = "venv/lib/python3.9/site-packages/"
     # DEFAULT_VENV_PC = "venv\\lib\\python3.9\\site-packages\\"
 
+    DEFAULT_REQUIREMENTS = 'requirements.txt'
+
     @staticmethod
     def run(library: str):
         if not library:
@@ -329,3 +331,41 @@ class forku:
         """
         # TODO - check if the library is the same as the github repo
         return True
+
+
+    @staticmethod
+    def githubify_requirements(requirements:str = None):
+        """
+        github files the requirements.txt file
+    
+        by changing all the libary names to the github url. (can't pip or something already do this?)
+
+        https://stackoverflow.com/questions/13685920/install-specific-git-commit-with-pip
+
+        would need to get the tag or revision for each lib. add user changes then rebase changes from pulled
+
+        """
+
+        if requirements is None or isinstance(requirements, bool):
+            requirements = forku.DEFAULT_REQUIREMENTS
+        
+        # create a new file
+        with open("github-" + requirements, "w") as f:
+            # for each line in the requirements file
+            for line in open(requirements, "r"):
+                # if the line is a library
+                if "==" in line:
+                    # get the library name
+                    lib_name = line.split("==")[0].strip()
+                    # get the github url
+                    github_url = forku.get_github_url(lib_name)
+                    # if there is a github url
+                    if github_url:
+                        # change the line to the github url
+                        line = line.replace(lib_name, github_url)
+                # write the line to the new file
+                f.write(line)
+        
+        # return the contents of the new file
+        with open("github-" + requirements, "r") as f:
+            return f.read()
